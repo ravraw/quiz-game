@@ -1,0 +1,31 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: lightblue;
+  position: relative;
+}
+
+.container {
+  background-color: #eee;
+  width: 50vw;
+  height: 50vh;
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+}
+
+.container > * {
+  margin: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-submit {
+  background-color: #000;
+  color: #fff;
+  border-radius: 100px;
+}
