@@ -1,5 +1,6 @@
 let score = 0;
 let questionNumber = 0;
+let currentQuestion;
 
 function Question(question, answers, correct) {
   this.question = question;
@@ -7,9 +8,9 @@ function Question(question, answers, correct) {
   this.correct = correct;
 }
 
-Question.prototype.showQuestion = function() {
-  document.querySelector(".question > p ").textContent =
-    "Q-" + questionNumber + 1 + " .";
+Question.prototype.buildQuestion = function() {
+  //   document.querySelector(".question > p ").textContent =
+  //     "Q-" + questionNumber + 1 + " .";
   document.querySelector(".question").textContent = this.question;
   let list = document.querySelector(".answer-list");
   for (let i = 0; i < this.answers.length; i++) {
@@ -35,7 +36,7 @@ const question1 = new Question(
 const question2 = new Question(
   "3 * 2 is equal to ?",
   ["0", "6", "2", "4"],
-  "4"
+  "6"
 );
 const question3 = new Question(
   " 16 / 4 is equal to ?",
@@ -45,7 +46,7 @@ const question3 = new Question(
 const question4 = new Question(
   " 8 - 2 is equal to ?",
   ["0", "1", "6", "4"],
-  "4"
+  "6"
 );
 
 let questions = [question1, question2, question3, question4];
@@ -58,8 +59,32 @@ let questions = [question1, question2, question3, question4];
 function displayQuestion() {
   console.log(questions);
   let random = Math.floor(Math.random() * questions.length);
-  questions[random].showQuestion();
+  currentQuestion = questions[random];
+  questions[random].buildQuestion();
   questions.splice(random, 1);
 }
 
+Question.prototype.checkAnswer = function() {
+  let selected = document.querySelector("li input:checked + label").textContent;
+  console.log(selected);
+  console.log(this);
+
+  if (selected === this.correct) {
+    score++;
+    document.querySelector(".score span").textContent = score;
+  }
+};
+
 displayQuestion();
+
+document.querySelector(".btn-submit").addEventListener("click", () => {
+  currentQuestion.checkAnswer();
+});
+
+document.querySelector(".btn-next").addEventListener("click", () => {
+  let options = document.querySelector(".answer-list");
+  while (options.firstChild) {
+    options.removeChild(options.firstChild);
+  }
+  displayQuestion();
+});
